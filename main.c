@@ -1,5 +1,7 @@
 #include "stm8l15x.h"
 
+#include "uart_logger/uart_logger.h"
+
 #define LED_ERR_MASK ((uint8_t)(1u << 5))
 #define LED_OK_MASK ((uint8_t)(1u << 6))
 
@@ -34,7 +36,17 @@ void main(void)
     // indicate progress by turning LED_ERR off
     GPIOA->ODR |= LED_ERR_MASK;
 
+    // set UART BaudRate to 115200, so divider 12000000/115200 = 104 = 0x68
+    configure_logger_peripheral(0x68u);
+
+    enableInterrupts();
+
+    log("device configured\n");
+
     while (1)
     {
+        process_buffered_logs();
+
+        wfi();
     }
 }

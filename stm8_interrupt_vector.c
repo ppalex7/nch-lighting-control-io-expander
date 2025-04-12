@@ -15,7 +15,7 @@ struct interrupt_vector const _vectab[] = {
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* TRAP - Software interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* Reserved */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq1 - FLASH interrupt */
-    {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq2 - DMA1 channel0 and channel1 interrupt */
+    {0x82, (interrupt_handler_t)DMA1_CHANNEL0_1_IRQHandler}, /* irq2 - DMA1 channel0 and channel1 interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq3 - DMA1 channel2 and channel3 interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq4 - RTC/ CSS on LSE interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq5 - External IT PORTE/F interrupt /PVD interrupt*/
