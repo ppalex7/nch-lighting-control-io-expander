@@ -18,22 +18,22 @@ void main(void)
     // configure clock to 12 MHz fed from HSE
     // set system clock presclaer to 1
     CLK->CKDIVR = 0;
-    // indicate progress by turning LED_ERR on
-    GPIOA->ODR &= (uint8_t)(~LED_ERR_MASK);
+    // indicate progress
+    enable_err_led();
     // HSE selected as system clock source
     CLK->SWR = 0x04;
     // wait until clock ready
     while (!(CLK->ECKCR & CLK_ECKCR_HSERDY))
         ;
-    // indicate progress by turning LED_OK on
-    GPIOA->ODR &= (uint8_t)(~LED_OK_MASK);
+    // indicate progress
+    enable_ok_led();
     // enable clock switch execution
     CLK->SWCR |= CLK_SWCR_SWEN;
     // wait until clock switched
     while (CLK->SWCR & CLK_SWCR_SWBSY)
         ;
-    // indicate progress by turning LED_ERR off
-    GPIOA->ODR |= LED_ERR_MASK;
+    // indicate progress
+    disable_err_led();
 
     // set UART BaudRate to 115200, so divider 12000000/115200 = 104 = 0x68
     configure_logger_peripheral(0x68u);

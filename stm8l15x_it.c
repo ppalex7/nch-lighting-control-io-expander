@@ -6,7 +6,7 @@
 
 INTERRUPT_HANDLER(NonHandledInterrupt, 0)
 {
-    GPIOA->ODR &= (uint8_t)(~LED_ERR_MASK);
+    enable_err_led();
     log("NonHandledInterrupt occurred!\n");
 }
 
