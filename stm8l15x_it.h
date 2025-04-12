@@ -6,5 +6,7 @@
 void _stext(void); /* RESET startup routine */
 INTERRUPT void NonHandledInterrupt(void);
 INTERRUPT void DMA1_CHANNEL0_1_IRQHandler(void); /* DMA1 Channel0/1*/
+INTERRUPT void EXTIN_IRQHandler(void); /* EXTI PIN[0:7] */
+INTERRUPT void EXTID_H_IRQHandler(void); /* EXTI PORTD / EXTI PORTH*/
 
 #endif /* __STM8L15x_IT_H */

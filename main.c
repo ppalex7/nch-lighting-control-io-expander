@@ -4,6 +4,8 @@
 
 #include "pinout.h"
 
+volatile uint16_t g_input_state;
+
 void main(void)
 {
     // enable pull-up for unused pins: PA4, PC3, PC4
@@ -34,6 +36,24 @@ void main(void)
         ;
     // indicate progress
     disable_err_led();
+
+    // configure input pins: PB[0:7], PD0
+    // set PortX bit 3210 external interrupt sensivity to "rising and falling edge"
+    EXTI->CR1 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) || (0b11 << 0);
+    // set PortX bit 7654 external interrupt sensivity to "rising and falling edge"
+    EXTI->CR2 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) || (0b11 << 0);
+    // set PortD external interrupt sensivity to "rising and falling edge"
+    EXTI->CR3 = (0b11 << 2);
+    // PD[3:0] are used for EXTID interrupt generation
+    EXTI->CONF1 = EXTI_CONF1_PDLIS;
+    // enable interrupts for PB[0:7]
+    GPIOB->CR2 = 0b11111111;
+    // enable interrupts for PD0
+    GPIOD->CR2 = 0b00000001;
+
+    // configure pin PC2 for I2C_REQUEST_PENDING (output push-pull)
+    GPIOC->DDR |= I2C_REQ_MASK;
+    GPIOC->CR1 |= I2C_REQ_MASK;
 
     // set UART BaudRate to 115200, so divider 12000000/115200 = 104 = 0x68
     configure_logger_peripheral(0x68u);

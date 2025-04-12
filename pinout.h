@@ -5,6 +5,7 @@
 
 #define LED_ERR_MASK ((uint8_t)(1u << 5))
 #define LED_OK_MASK ((uint8_t)(1u << 6))
+#define I2C_REQ_MASK ((uint8_t)(1u << 2))
 
 @ inline void enable_ok_led(void)
 {
@@ -24,6 +25,11 @@
 @ inline void disable_err_led(void)
 {
     GPIOA->ODR |= LED_ERR_MASK;
+}
+
+@ inline void raise_i2c_flag(void)
+{
+    GPIOC->ODR |= I2C_REQ_MASK;
 }
 
 #endif
