@@ -2,8 +2,7 @@
 
 #include "uart_logger/uart_logger.h"
 
-#define LED_ERR_MASK ((uint8_t)(1u << 5))
-#define LED_OK_MASK ((uint8_t)(1u << 6))
+#include "pinout.h"
 
 void main(void)
 {
