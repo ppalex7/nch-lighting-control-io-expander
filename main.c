@@ -38,6 +38,10 @@ void main(void)
     // indicate progress
     disable_err_led();
 
+    // configure pins PD[1:7] for output (push-pull)
+    GPIOD->DDR |= PORTD_OUTPUT_MASK;
+    GPIOD->CR1 |= PORTD_OUTPUT_MASK;
+
     // configure input pins: PB[0:7], PD0
     // set PortX bit 3210 external interrupt sensivity to "rising and falling edge"
     EXTI->CR1 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) || (0b11 << 0);
