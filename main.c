@@ -13,6 +13,8 @@ void main(void)
     GPIOA->CR1 |= 1u << 4;
     GPIOC->CR1 |= 1u << 3;
     GPIOC->CR1 |= 1u << 4;
+    // also for unused UART_RX pin PC6
+    GPIOC->CR1 |= 1u << 6;
 
     // configure pins as output for status LEDs: PA5, PA6
     GPIOA->DDR |= LED_ERR_MASK;
