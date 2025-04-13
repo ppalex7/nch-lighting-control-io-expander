@@ -1,5 +1,6 @@
 #include "stm8l15x.h"
 
+#include "common/i2c_protocol.h"
 #include "uart_logger/uart_logger.h"
 
 #include "pinout.h"
@@ -57,6 +58,25 @@ void main(void)
 
     // set UART BaudRate to 115200, so divider 12000000/115200 = 104 = 0x68
     configure_logger_peripheral(0x68u);
+
+    // configure I2C
+    // Feed clock to I2C
+    CLK->PCKENR1 |= CLK_PCKENR1_I2C1;
+    // Configure I2C frequency as 12MHz
+    I2C1->FREQR = 12;
+    // Configure I2C speed to 100 kHz
+    // According to Table 91. I2C_CCR values for SCL frequency table:
+    // 0x50 for 16 MHz input, we'v got 12, so 0x50 / 16 * 12 -> 0x3C
+    I2C1->CCRL = 0x3C;
+    // Enable peripheral
+    I2C1->CR1 = I2C_CR1_PE;
+    // Enable Acknoledgement
+    I2C1->CR2 = I2C_CR2_ACK;
+    // Configure own adress
+    I2C1->OARL = IO_EXPANDER_I2C_ADDRESS;
+    I2C1->OARH = I2C_OARH_ADDCONF;
+    // Enable I2C buffer, event and error interrupts
+    I2C1->ITR = I2C_ITR_ITBUFEN | I2C_ITR_ITEVTEN | I2C_ITR_ITERREN;
 
     enableInterrupts();
 

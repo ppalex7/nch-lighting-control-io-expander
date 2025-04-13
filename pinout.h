@@ -32,4 +32,9 @@
     GPIOC->ODR |= I2C_REQ_MASK;
 }
 
+@ inline void lower_i2c_flag(void)
+{
+    GPIOC->ODR &= (uint8_t)(~I2C_REQ_MASK);
+}
+
 #endif

@@ -42,5 +42,5 @@ struct interrupt_vector const _vectab[] = {
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq26 - SPI1 interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq27 - USART1 TX / TIM5 Update/Overflow/Trigger/Break interrupt */
     {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq28 - USART1 RX / TIM1 Capture/Compare interrupt */
-    {0x82, (interrupt_handler_t)NonHandledInterrupt}, /* irq29 - I2C1 / SPI2 interrupt */
+    {0x82, (interrupt_handler_t)I2C1_SPI2_IRQHandler}, /* irq29 - I2C1 / SPI2 interrupt */
 };
