@@ -62,6 +62,8 @@ void main(void)
     GPIOC->DDR |= I2C_REQ_MASK;
     GPIOC->CR1 |= I2C_REQ_MASK;
 
+    // UARTC connected to pins PC5, PC6
+    SYSCFG->RMPCR1 |= (0b10 << 4);
     // set UART BaudRate to 115200, so divider 12000000/115200 = 104 = 0x68
     configure_logger_peripheral(0x68u);
 
