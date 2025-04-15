@@ -46,9 +46,9 @@ void main(void)
 
     // configure input pins: PB[0:7], PD0
     // set PortX bit 3210 external interrupt sensivity to "rising and falling edge"
-    EXTI->CR1 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) || (0b11 << 0);
+    EXTI->CR1 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) | (0b11 << 0);
     // set PortX bit 7654 external interrupt sensivity to "rising and falling edge"
-    EXTI->CR2 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) || (0b11 << 0);
+    EXTI->CR2 = (0b11 << 6) | (0b11 << 4) | (0b11 << 2) | (0b11 << 0);
     // set PortD external interrupt sensivity to "rising and falling edge"
     EXTI->CR3 = (0b11 << 2);
     // PD[3:0] are used for EXTID interrupt generation
