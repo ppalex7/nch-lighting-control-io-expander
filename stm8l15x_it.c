@@ -89,6 +89,12 @@ INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler, 29)
     // ignore SR3 BUSY bit
     sr3 &= (uint8_t)(~I2C_SR3_BUSY);
 
+    if (sr1 & I2C_SR1_ADDR)
+    {
+        // enable buffer interrupts on address matched
+        I2C1->ITR |= I2C_ITR_ITBUFEN;
+    }
+
     if (sr3 == I2C_SR3_TRA)
     {
         // transmitter
@@ -108,18 +114,24 @@ INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler, 29)
                 tx = tx >> 8;
                 bytes_sent++;
                 logf("I2C: %d bytes sent\n", bytes_sent);
-            }
-            else
-            {
-                if (sending_input_state == g_input_state)
+
+                if (bytes_sent == sizeof(tx))
                 {
-                    // actual data was sent, clear flag
-                    log("I2C: transmitted state is actual, turn off \"pending request\" flag\n");
-                    lower_i2c_flag();
-                }
-                else
-                {
-                    log("I2C: transmitted state is stale, keep \"pending request\" flag on\n");
+                    // last byte sent
+
+                    // disable buffer interrupt
+                    I2C1->ITR &= (uint8_t)(~I2C_ITR_ITBUFEN);
+
+                    if (sending_input_state == g_input_state)
+                    {
+                        // actual data was sent, clear flag
+                        log("I2C: transmitted state is actual, turn off \"pending request\" flag\n");
+                        lower_i2c_flag();
+                    }
+                    else
+                    {
+                        log("I2C: transmitted state is stale, keep \"pending request\" flag on\n");
+                    }
                 }
             }
         }

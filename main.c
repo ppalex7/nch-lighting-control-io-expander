@@ -83,8 +83,8 @@ void main(void)
     // Configure own adress
     I2C1->OARL = IO_EXPANDER_I2C_ADDRESS;
     I2C1->OARH = I2C_OARH_ADDCONF;
-    // Enable I2C buffer, event and error interrupts
-    I2C1->ITR = I2C_ITR_ITBUFEN | I2C_ITR_ITEVTEN | I2C_ITR_ITERREN;
+    // Enable I2C event and error interrupts
+    I2C1->ITR = I2C_ITR_ITEVTEN | I2C_ITR_ITERREN;
 
     enableInterrupts();
 
