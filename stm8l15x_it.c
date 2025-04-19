@@ -56,6 +56,7 @@ INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler, 29)
     static uint16_t sending_input_state;
     static uint8_t bytes_sent;
 
+    static uint8_t bytes_received;
     uint8_t rx;
 
     uint8_t sr1;
@@ -139,15 +140,25 @@ INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler, 29)
     else if (sr3 == 0)
     {
         // receiver
+        if (sr1 & I2C_SR1_ADDR)
+        {
+            bytes_received = 0;
+        }
+
         if (sr1 & I2C_SR1_RXNE)
         {
             // data register empty
             rx = I2C1->DR;
-            logf("I2C: received 0x%02hX, update PORTD\n", rx);
+            bytes_received++;
+            logf("I2C: received 0x%02hX\n", rx);
 
-            rx &= PORTD_OUTPUT_MASK;
-            // we can overwrite other pins because they configured as input
-            GPIOD->ODR = rx;
+            if (bytes_received == 1)
+            {
+                rx &= PORTD_OUTPUT_MASK;
+                logf("set PORTD to 0x%02hX\n", rx);
+                // we can overwrite other pins because they configured as input
+                GPIOD->ODR = rx;
+            }
         }
         if (sr1 & I2C_SR1_STOPF)
         {
