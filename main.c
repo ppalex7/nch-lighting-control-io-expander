@@ -90,6 +90,10 @@ void main(void)
 
     log("device configured\n");
 
+    g_input_state = (((uint8_t)((uint8_t)(~GPIOD->IDR) & PORTD_INPUT_MASK)) << 8) | ((uint8_t)(~GPIOB->IDR));
+    raise_i2c_flag();
+    logf("initial input state 0x%04hX\n", g_input_state);
+
     while (1)
     {
         process_buffered_logs();

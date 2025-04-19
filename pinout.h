@@ -7,6 +7,7 @@
 #define LED_OK_MASK ((uint8_t)(1u << 6))
 #define I2C_REQ_MASK ((uint8_t)(1u << 2))
 #define PORTD_OUTPUT_MASK 0b11111110
+#define PORTD_INPUT_MASK  0b00000001
 
 @ inline void enable_ok_led(void)
 {

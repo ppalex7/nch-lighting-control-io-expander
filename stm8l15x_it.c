@@ -38,7 +38,7 @@ INTERRUPT_HANDLER(EXTID_H_IRQHandler, 7)
     uint8_t new_state_high;
 
     // invert state (buttons pulled-up) and filter
-    new_state_high = (uint8_t)((uint8_t)(~GPIOD->IDR) & 0b00000001);
+    new_state_high = (uint8_t)((uint8_t)(~GPIOD->IDR) & PORTD_INPUT_MASK);
 
     // pack PORTD into higher byte
     g_input_state = (new_state_high << 8) | (g_input_state & 0x00FF);
